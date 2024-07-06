@@ -23,9 +23,15 @@ const updateSignleProductFromDB = async (id: string, productData: TProduct) => {
   )
   return result
 }
+const deleteSingleProductFromDB = async (id: string) => {
+  const result = await Product.deleteOne({ _id: new Types.ObjectId(id) })
+  return result
+}
+
 export const ProductServices = {
   createProductIntoDB,
   getAllProductFromDB,
   getSingleProductFromDB,
   updateSignleProductFromDB,
+  deleteSingleProductFromDB,
 }
