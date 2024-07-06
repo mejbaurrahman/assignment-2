@@ -39,7 +39,51 @@ const getAllProducts = async (req: Request, res: Response) => {
   }
 }
 
+const getSingleProduct = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.productId
+    const result = await ProductServices.getSingleProductFromDB(id)
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: 'Product fetched successfully!',
+      data: result,
+    })
+  } catch (err: any) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: err.message || 'something went wrong',
+      error: err,
+    })
+  }
+}
+
+const updateSingleProduct = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.productId
+    const productData = req.body
+    const result = await ProductServices.updateSignleProductFromDB(
+      id,
+      productData,
+    )
+    if (result.modifiedCount) {
+      const result2 = await ProductServices.getSingleProductFromDB(id)
+      res.status(StatusCodes.OK).json({
+        success: true,
+        message: 'Product updated successfully!',
+        data: result2,
+      })
+    }
+  } catch (err: any) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: err.message || 'something went wrong',
+      error: err,
+    })
+  }
+}
 export const ProductControllers = {
   createProduct,
   getAllProducts,
+  getSingleProduct,
+  updateSingleProduct,
 }
