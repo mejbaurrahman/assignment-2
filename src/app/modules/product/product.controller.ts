@@ -10,7 +10,7 @@ const createProduct = async (req: Request, res: Response) => {
     const result = await ProductServices.createProductIntoDB(zodParsedData)
     res.status(StatusCodes.OK).json({
       success: true,
-      message: 'Product created successfully',
+      message: 'Product created successfully!',
       data: result,
     })
   } catch (err: any) {
@@ -24,12 +24,24 @@ const createProduct = async (req: Request, res: Response) => {
 
 const getAllProducts = async (req: Request, res: Response) => {
   try {
+    const searchTerm = req.query.searchTerm
     const result = await ProductServices.getAllProductFromDB()
-    res.status(StatusCodes.OK).json({
-      success: true,
-      message: 'Products fetched successfully!',
-      data: result,
-    })
+    if (req.query.searchTerm) {
+      const filteredProducts = result.filter(product =>
+        product.name.toLowerCase().includes(searchTerm as string),
+      )
+      res.status(StatusCodes.OK).json({
+        success: true,
+        message: 'Products fetched successfully!',
+        data: filteredProducts,
+      })
+    } else {
+      res.status(StatusCodes.OK).json({
+        success: true,
+        message: 'Products fetched successfully!',
+        data: result,
+      })
+    }
   } catch (err: any) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       success: false,
@@ -98,10 +110,12 @@ const deleteSingleProduct = async (req: Request, res: Response) => {
     })
   }
 }
+
 export const ProductControllers = {
   createProduct,
   getAllProducts,
   getSingleProduct,
   updateSingleProduct,
   deleteSingleProduct,
+  // searchProducts,
 }
