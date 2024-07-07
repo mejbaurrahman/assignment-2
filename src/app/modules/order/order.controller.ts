@@ -18,18 +18,25 @@ const createOrder = async (req: Request, res: Response) => {
         message: 'Insufficient quantity available in inventory',
       })
     } else {
-      const result = await OrderServices.createOrderIntoDB(zodParsedData)
-
-      if ((product?.inventory?.quantity as number) - quantity == 0) {
-        await ProductServices.updateSignleProductFromDB(productId, {
-          inStock: false,
-        })
-      }
       if ((product?.inventory?.quantity as number) - quantity > 0) {
+        console.log('Product quantity', product?.inventory?.quantity)
         await ProductServices.updateSignleProductFromDB(productId, {
-          quantity: (product?.inventory?.quantity as number) - quantity,
+          inventory: {
+            quantity: (product?.inventory?.quantity as number) - quantity,
+            inStock: true,
+          },
         })
       }
+      if ((product?.inventory?.quantity as number) - quantity == 0) {
+        console.log('Product quantity', product?.inventory?.quantity)
+        await ProductServices.updateSignleProductFromDB(productId, {
+          inventory: {
+            quantity: 0,
+            inStock: false,
+          },
+        })
+      }
+      const result = await OrderServices.createOrderIntoDB(zodParsedData)
       res.status(StatusCodes.OK).json({
         success: true,
         message: 'Order created successfully!',

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { TProduct } from './product.interface'
 import { Product } from './product.model'
@@ -17,7 +18,7 @@ const getSingleProductFromDB = async (id: string) => {
   const result = await Product.findOne({ _id: new Types.ObjectId(id) })
   return result
 }
-const updateSignleProductFromDB = async (id: string, productData: any) => {
+const updateSignleProductFromDB = async (id: string, productData: Object) => {
   const result = await Product.updateOne(
     { _id: new Types.ObjectId(id) },
     productData,
