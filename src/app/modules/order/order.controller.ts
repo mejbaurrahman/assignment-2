@@ -28,7 +28,6 @@ const createOrder = async (req: Request, res: Response) => {
         })
       }
       if ((product?.inventory?.quantity as number) - quantity == 0) {
-        console.log('Product quantity', product?.inventory?.quantity)
         await ProductServices.updateSignleProductFromDB(productId, {
           inventory: {
             quantity: 0,

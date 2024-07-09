@@ -40,7 +40,7 @@ const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function*
             const filteredProducts = result.filter(product => product.name.toLowerCase().includes(searchTerm));
             res.status(http_status_codes_1.StatusCodes.OK).json({
                 success: true,
-                message: 'Products fetched successfully!',
+                message: `Products matching search term '${searchTerm}' fetched successfully!`,
                 data: filteredProducts,
             });
         }

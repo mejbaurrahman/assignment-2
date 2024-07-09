@@ -16,7 +16,7 @@ const order_validation_1 = require("./order.validation");
 const order_service_1 = require("./order.service");
 const product_service_1 = require("../product/product.service");
 const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b, _c, _d, _e, _f;
+    var _a, _b, _c, _d, _e;
     try {
         const { productId, quantity } = req.body;
         const zodParsedData = order_validation_1.orderSchemaValidation.parse(req.body);
@@ -38,7 +38,6 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 });
             }
             if (((_e = product === null || product === void 0 ? void 0 : product.inventory) === null || _e === void 0 ? void 0 : _e.quantity) - quantity == 0) {
-                console.log('Product quantity', (_f = product === null || product === void 0 ? void 0 : product.inventory) === null || _f === void 0 ? void 0 : _f.quantity);
                 yield product_service_1.ProductServices.updateSignleProductFromDB(productId, {
                     inventory: {
                         quantity: 0,

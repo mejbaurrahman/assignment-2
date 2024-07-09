@@ -32,7 +32,7 @@ const getAllProducts = async (req: Request, res: Response) => {
       )
       res.status(StatusCodes.OK).json({
         success: true,
-        message: 'Products fetched successfully!',
+        message: `Products matching search term '${searchTerm}' fetched successfully!`,
         data: filteredProducts,
       })
     } else {
