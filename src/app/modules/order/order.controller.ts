@@ -60,11 +60,17 @@ const getAllOrders = async (req: Request, res: Response) => {
       const result = await OrderServices.getAllOrderUsingEmailFromDB(
         searchTerm as string,
       )
-      res.status(StatusCodes.OK).json({
-        success: true,
-        message: 'Orders fetched successfully for user email!',
-        data: result,
-      })
+      if (result.length) {
+        res.status(StatusCodes.OK).json({
+          success: true,
+          message: 'Orders fetched successfully for user email!',
+          data: result,
+        })
+      } else {
+        res
+          .status(StatusCodes.OK)
+          .json({ success: false, message: 'Order not found' })
+      }
     } else {
       res.status(StatusCodes.OK).json({
         success: true,

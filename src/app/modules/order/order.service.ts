@@ -19,15 +19,8 @@ const getAllOrderUsingEmailFromDB = async (email: string) => {
   return result
 }
 
-// const getSingleProductFromDB = async (id: string) => {
-//   const result = await Product.findOne({ _id: new Types.ObjectId(id) })
-//   return result
-// }
-
 export const OrderServices = {
   createOrderIntoDB,
   getAllOrderUsingEmailFromDB,
   getAllOrderFromDB,
-  //   getAllProductFromDB,
-  //   getSingleProductFromDB,
 }
